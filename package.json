@@ -1,0 +1,22 @@
+{
+  "name": "ai-daily-brief",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Daily AI news podcast, newsletter, and model comparison platform.",
+  "workspaces": [
+    "apps/*",
+    "jobs/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:web": "echo \"Web app scaffold pending\"",
+    "dev:api": "echo \"API scaffold pending\"",
+    "job:daily": "echo \"Daily digest job scaffold pending\"",
+    "lint": "echo \"Lint not configured yet\"",
+    "test": "echo \"No tests configured yet\""
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,13 @@
+node_modules/
+dist/
+build/
+.cache/
+.turbo/
+.env
+.env.local
+.env.*.local
+coverage/
+.DS_Store
+Thumbs.db
+*.log
+package-lock.json
