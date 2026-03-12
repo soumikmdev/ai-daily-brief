@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Daily Brief — Wednesday, March 11, 2026</title>
+<style>
+  :root {
+    --bg: #0d1117; --surface: #161b22; --border: #30363d;
+    --text: #e6edf3; --muted: #8b949e; --accent: #58a6ff;
+    --green: #3fb950; --purple: #bc8cff; --orange: #f0883e;
+    --gold: #d29922;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif; line-height:1.6; }
+
+  .container { max-width:1200px; margin:0 auto; padding:0 24px; }
+
+  header { background:linear-gradient(135deg, #1a1f2e 0%, #0d1117 100%); border-bottom:1px solid var(--border); padding:40px 0; text-align:center; }
+  header h1 { font-size:2.5rem; margin-bottom:8px; background:linear-gradient(90deg, var(--accent), var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  header .date { color:var(--muted); font-size:1.1rem; }
+  header .tagline { color:var(--muted); font-size:0.95rem; margin-top:4px; }
+
+  nav { background:var(--surface); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:10; }
+  nav .container { display:flex; gap:24px; padding:12px 24px; overflow-x:auto; }
+  nav a { color:var(--muted); text-decoration:none; font-weight:500; white-space:nowrap; padding:4px 0; border-bottom:2px solid transparent; transition:all .2s; }
+  nav a:hover, nav a.active { color:var(--accent); border-bottom-color:var(--accent); }
+
+  section { padding:48px 0; border-bottom:1px solid var(--border); }
+  section:last-child { border-bottom:none; }
+  h2 { font-size:1.75rem; margin-bottom:24px; display:flex; align-items:center; gap:12px; }
+  h2 .icon { font-size:1.5rem; }
+
+  /* News cards */
+  .news-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(340px, 1fr)); gap:16px; }
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px; transition:border-color .2s; }
+  .card:hover { border-color:var(--accent); }
+  .card-meta { display:flex; justify-content:space-between; margin-bottom:8px; font-size:0.85rem; }
+  .source { color:var(--accent); font-weight:600; }
+  .time { color:var(--muted); }
+  .card h3 { font-size:1rem; margin-bottom:8px; line-height:1.4; }
+  .card h3 a { color:var(--text); text-decoration:none; }
+  .card h3 a:hover { color:var(--accent); }
+  .snippet { color:var(--muted); font-size:0.85rem; }
+
+  /* Tables */
+  .table-wrap { overflow-x:auto; border-radius:12px; border:1px solid var(--border); }
+  table { width:100%; border-collapse:collapse; font-size:0.9rem; }
+  th { background:var(--surface); color:var(--accent); text-align:left; padding:12px 16px; font-weight:600; position:sticky; top:0; white-space:nowrap; }
+  td { padding:10px 16px; border-top:1px solid var(--border); white-space:nowrap; }
+  tr:hover td { background:rgba(88,166,255,0.04); }
+  .center { text-align:center; }
+  .best { color:var(--green); font-weight:700; }
+
+  /* Leaders */
+  .leader-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(170px, 1fr)); gap:16px; }
+  .leader-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px; text-align:center; }
+  .leader-bench { color:var(--muted); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
+  .leader-model { font-weight:700; font-size:1.05rem; color:var(--text); }
+  .leader-score { font-size:1.8rem; font-weight:800; background:linear-gradient(135deg, var(--gold), var(--orange)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin:4px 0; }
+  .leader-lab { color:var(--muted); font-size:0.85rem; }
+
+  /* Launches */
+  .launch-item { display:grid; grid-template-columns:90px 180px 140px 1fr; gap:12px; padding:10px 0; border-bottom:1px solid var(--border); align-items:center; font-size:0.9rem; }
+  .launch-item:last-child { border-bottom:none; }
+  .launch-date { color:var(--accent); font-family:monospace; font-weight:600; }
+  .launch-name { font-weight:700; }
+  .launch-lab { color:var(--muted); }
+  .launch-note { color:var(--muted); font-size:0.85rem; }
+
+  /* Open weight */
+  .open-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:16px; }
+  .open-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px; }
+  .open-card h4 { margin-bottom:8px; }
+  .open-lab { color:var(--muted); font-weight:400; font-size:0.85rem; }
+  .open-card p { color:var(--muted); font-size:0.9rem; margin-bottom:4px; }
+  .open-scores { font-family:monospace; color:var(--green); font-size:0.85rem !important; }
+
+  footer { text-align:center; padding:32px 0; color:var(--muted); font-size:0.85rem; border-top:1px solid var(--border); }
+  footer a { color:var(--accent); text-decoration:none; }
+
+  @media (max-width:700px) {
+    header h1 { font-size:1.6rem; }
+    .news-grid { grid-template-columns:1fr; }
+    .launch-item { grid-template-columns:1fr; gap:2px; }
+    .leader-grid { grid-template-columns:repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <h1>🤖 AI Daily Brief</h1>
+    <div class="date">Wednesday, March 11, 2026</div>
+    <div class="tagline">Top AI news &amp; frontier model tracking — updated daily</div>
+  </div>
+</header>
+
+<nav>
+  <div class="container">
+    <a href="#news">📰 Today's News</a>
+    <a href="#leaders">🏆 Leaders</a>
+    <a href="#models">📊 Models</a>
+    <a href="#benchmarks">📈 Benchmarks</a>
+    <a href="#launches">🚀 Launches</a>
+    <a href="#open">🔓 Open Weight</a>
+  </div>
+</nav>
+
+<main class="container">
+
+  <section id="news">
+    <h2><span class="icon">📰</span> Today's Top AI Stories</h2>
+    <div class="news-grid">
+      
+    <article class="card">
+      <div class="card-meta"><span class="source">Google AI Blog</span><span class="time">just now</span></div>
+      <h3><a href="https://blog.google/innovation-and-ai/technology/health/google-ai-heart-health-australia/" target="_blank" rel="noopener">How AI is helping improve heart health in rural Australia</a></h3>
+      <p class="snippet">A new Google AI initiative aims to improve heart health outcomes for people living in remote Australian communities.…</p>
+    </article>
+
+    <article class="card">
+      <div class="card-meta"><span class="source">Hugging Face Blog</span><span class="time">3h ago</span></div>
+      <h3><a href="https://huggingface.co/blog/nvidia/how-nvidia-won-deepresearch-bench" target="_blank" rel="noopener">How NVIDIA AI-Q Reached \#1 on DeepResearch Bench I and II</a></h3>
+      
+    </article>
+
+    <article class="card">
+      <div class="card-meta"><span class="source">TechCrunch</span><span class="time">7h ago</span></div>
+      <h3><a href="https://techcrunch.com/2026/03/11/ai-actor-tilly-norwood-put-out-the-worst-song-ive-ever-heard/" target="_blank" rel="noopener">AI ‘actor’ Tilly Norwood put out the worst song I’ve ever heard</a></h3>
+      <p class="snippet">This song is an AI actor's rallying cry to other AI actors, urging them to keep going despite the naysayers who doubt their humanity. Literally no one…</p>
+    </article>
+
+    <article class="card">
+      <div class="card-meta"><span class="source">The Verge</span><span class="time">8h ago</span></div>
+      <h3><a href="https://www.theverge.com/ai-artificial-intelligence/893451/grammarly-ai-lawsuit-julia-angwin" target="_blank" rel="noopener">One of Grammarly’s ‘experts’ is suing the company over its identity-stealing AI feature</a></h3>
+      <p class="snippet">Journalist Julia Angwin is one of the writers whose likeness was used in Grammarly’s “expert review” feature. | Photo: Eóin Noonan / Sportsfile via Ge…</p>
+    </article>
+
+    <article class="card">
+      <div class="card-meta"><span class="source">TechCrunch</span><span class="time">8h ago</span></div>
+      <h3><a href="https://techcrunch.com/2026/03/11/fords-new-ai-assistant-will-help-fleet-owners-know-if-seatbelts-are-being-used/" target="_blank" rel="noopener">Ford’s new AI assistant will help fleet owners know if seatbelts are being used</a></h3>
+      <p class="snippet">Ford Pro AI debuted at Work Truck Week in Indianapolis and is now available to all of its U.S.-based Pro telematics subscribers.…</p>
+    </article>
+
+    <article class="card">
+      <div class="card-meta"><span class="source">TechCrunch</span><span class="time">9h ago</span></div>
+      <h3><a href="https://techcrunch.com/2026/03/11/netflix-may-have-paid-600-million-for-ben-afflecks-ai-startup/" target="_blank" rel="noopener">Netflix may have paid $600 million for Ben Affleck’s AI startup</a></h3>
+      <p class="snippet">This deal could rank as among the streaming giant's largest acquisitions ever.…</p>
+    </article>
+
+    <article class="card">
+      <div class="card-meta"><span class="source">The Verge</span><span class="time">12h ago</span></div>
+      <h3><a href="https://www.theverge.com/ai-artificial-intelligence/893270/grammarly-ai-expert-review-disabled" target="_blank" rel="noopener">Grammarly says it will stop using AI to clone experts without permission</a></h3>
+      <p class="snippet">Superhuman says it has disabled Grammarly's &quot;expert review&quot; AI feature that said its edit suggestions were &quot;inspired by&quot; real writers, including our e…</p>
+    </article>
+
+    <article class="card">
+      <div class="card-meta"><span class="source">The Verge</span><span class="time">14h ago</span></div>
+      <h3><a href="https://www.theverge.com/ai-artificial-intelligence/893189/openai-chatgpt-sora-integration" target="_blank" rel="noopener">OpenAI’s Sora video generator is reportedly coming to ChatGPT</a></h3>
+      <p class="snippet">OpenAI's Sora video generator could soon become a built-in feature in ChatGPT, as reported by The Information. Sora is currently only available on its…</p>
+    </article>
+
+    <article class="card">
+      <div class="card-meta"><span class="source">TechCrunch</span><span class="time">15h ago</span></div>
+      <h3><a href="https://techcrunch.com/2026/03/11/rivian-mind-robotics-series-a-500m-fund-raise-industrial-ai-powered-robots/" target="_blank" rel="noopener">Rivian spin-out Mind Robotics raises $500M for industrial AI-powered robots</a></h3>
+      <p class="snippet">The startup, which was created by Rivian founder RJ Scaringe, is looking to train on data from, and deploy in, Rivian's factory.…</p>
+    </article>
+
+    <article class="card">
+      <div class="card-meta"><span class="source">TechCrunch</span><span class="time">16h ago</span></div>
+      <h3><a href="https://techcrunch.com/2026/03/11/metas-moltbook-deal-points-to-a-future-built-around-ai-agents/" target="_blank" rel="noopener">Meta’s Moltbook deal points to a future built around AI agents</a></h3>
+      <p class="snippet">Meta’s Moltbook acquisition may look odd at first, but the deal could signal how Meta sees AI agents shaping future advertising and commerce on an age…</p>
+    </article>
+
+    <article class="card">
+      <div class="card-meta"><span class="source">The Verge</span><span class="time">16h ago</span></div>
+      <h3><a href="https://www.theverge.com/tech/893124/canva-ai-magic-layers-feature-beta" target="_blank" rel="noopener">Canva’s new editing tool adds layers to AI-generated designs</a></h3>
+      <p class="snippet">Canva introduced a new feature that separates flat image files and AI-generated visuals into layered, fully editable designs. The Magic Layers tool is…</p>
+    </article>
+
+    <article class="card">
+      <div class="card-meta"><span class="source">TechCrunch</span><span class="time">16h ago</span></div>
+      <h3><a href="https://techcrunch.com/2026/03/11/amazon-expands-a-program-that-lets-customers-shop-from-other-retailers-sites/" target="_blank" rel="noopener">Amazon expands a program that lets customers shop from other retailers’ sites</a></h3>
+      <p class="snippet">The changes allow more merchants to participate in Amazon's Shop Direct program, which sends Amazon customers to other retailers' websites.…</p>
+    </article>
+
+    <article class="card">
+      <div class="card-meta"><span class="source">The Verge</span><span class="time">17h ago</span></div>
+      <h3><a href="https://www.theverge.com/featured-video/892850/i-was-interviewed-by-an-ai-bot-for-a-job" target="_blank" rel="noopener">I was interviewed by an AI bot for a job</a></h3>
+      <p class="snippet">Millions of people are on the job hunt right now - and for many people, landing a job in the AI era feels more intimidating than ever. That's why the …</p>
+    </article>
+
+    <article class="card">
+      <div class="card-meta"><span class="source">MIT Technology Review</span><span class="time">18h ago</span></div>
+      <h3><a href="https://www.technologyreview.com/2026/03/11/1134179/china-openclaw-gold-rush/" target="_blank" rel="noopener">Hustlers are cashing in on China’s OpenClaw AI craze</a></h3>
+      <p class="snippet">Feng Qingyang had always hoped to launch his own company, but he never thought this would be how—or that the day would come this fast.  Feng, a 27-yea…</p>
+    </article>
+
+    <article class="card">
+      <div class="card-meta"><span class="source">OpenAI Blog</span><span class="time">19h ago</span></div>
+      <h3><a href="https://openai.com/index/designing-agents-to-resist-prompt-injection" target="_blank" rel="noopener">Designing AI agents to resist prompt injection</a></h3>
+      <p class="snippet">How ChatGPT defends against prompt injection and social engineering by constraining risky actions and protecting sensitive data in agent workflows.…</p>
+    </article>
+    </div>
+  </section>
+
+  <section id="leaders">
+    <h2><span class="icon">🏆</span> Benchmark Leaders</h2>
+    <div class="leader-grid">
+      
+    <div class="leader-card">
+      <div class="leader-bench">MMLU</div>
+      <div class="leader-model">o3</div>
+      <div class="leader-score">92.1</div>
+      <div class="leader-lab">OpenAI</div>
+    </div>
+
+    <div class="leader-card">
+      <div class="leader-bench">HumanEval</div>
+      <div class="leader-model">o3</div>
+      <div class="leader-score">96.7</div>
+      <div class="leader-lab">OpenAI</div>
+    </div>
+
+    <div class="leader-card">
+      <div class="leader-bench">MATH</div>
+      <div class="leader-model">DeepSeek-R1</div>
+      <div class="leader-score">97.3</div>
+      <div class="leader-lab">DeepSeek</div>
+    </div>
+
+    <div class="leader-card">
+      <div class="leader-bench">GPQA-Diamond</div>
+      <div class="leader-model">o3</div>
+      <div class="leader-score">87.7</div>
+      <div class="leader-lab">OpenAI</div>
+    </div>
+
+    <div class="leader-card">
+      <div class="leader-bench">SWE bench</div>
+      <div class="leader-model">Claude Opus 4</div>
+      <div class="leader-score">79.4</div>
+      <div class="leader-lab">Anthropic</div>
+    </div>
+
+    <div class="leader-card">
+      <div class="leader-bench">Arena ELO</div>
+      <div class="leader-model">Gemini 2.5 Pro</div>
+      <div class="leader-score">1402</div>
+      <div class="leader-lab">Google DeepMind</div>
+    </div>
+    </div>
+  </section>
+
+  <section id="models">
+    <h2><span class="icon">📊</span> Model Overview</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Model</th><th>Lab</th><th>Released</th><th>Context</th><th>Modalities</th><th class="center">Open</th></tr></thead>
+        <tbody>
+    <tr>
+      <td><strong>GPT-4o</strong></td>
+      <td>OpenAI</td>
+      <td>2024-05</td>
+      <td>128K</td>
+      <td>text, image, audio</td>
+      <td class="center">—</td>
+    </tr>
+
+    <tr>
+      <td><strong>GPT-4.1</strong></td>
+      <td>OpenAI</td>
+      <td>2025-04</td>
+      <td>1M</td>
+      <td>text, image</td>
+      <td class="center">—</td>
+    </tr>
+
+    <tr>
+      <td><strong>o3</strong></td>
+      <td>OpenAI</td>
+      <td>2025-04</td>
+      <td>200K</td>
+      <td>text, image</td>
+      <td class="center">—</td>
+    </tr>
+
+    <tr>
+      <td><strong>Claude Sonnet 4</strong></td>
+      <td>Anthropic</td>
+      <td>2025-06</td>
+      <td>200K</td>
+      <td>text, image</td>
+      <td class="center">—</td>
+    </tr>
+
+    <tr>
+      <td><strong>Claude Opus 4</strong></td>
+      <td>Anthropic</td>
+      <td>2025-06</td>
+      <td>200K</td>
+      <td>text, image</td>
+      <td class="center">—</td>
+    </tr>
+
+    <tr>
+      <td><strong>Gemini 2.5 Pro</strong></td>
+      <td>Google DeepMind</td>
+      <td>2025-03</td>
+      <td>1M</td>
+      <td>text, image, audio, video</td>
+      <td class="center">—</td>
+    </tr>
+
+    <tr>
+      <td><strong>Gemini 2.5 Flash</strong></td>
+      <td>Google DeepMind</td>
+      <td>2025-04</td>
+      <td>1M</td>
+      <td>text, image, audio, video</td>
+      <td class="center">—</td>
+    </tr>
+
+    <tr>
+      <td><strong>DeepSeek-R1</strong></td>
+      <td>DeepSeek</td>
+      <td>2025-01</td>
+      <td>128K</td>
+      <td>text</td>
+      <td class="center">✅</td>
+    </tr>
+
+    <tr>
+      <td><strong>Llama 4 Maverick</strong></td>
+      <td>Meta</td>
+      <td>2025-04</td>
+      <td>1M</td>
+      <td>text, image</td>
+      <td class="center">✅</td>
+    </tr>
+
+    <tr>
+      <td><strong>Grok-3</strong></td>
+      <td>xAI</td>
+      <td>2025-02</td>
+      <td>128K</td>
+      <td>text, image</td>
+      <td class="center">—</td>
+    </tr>
+
+    <tr>
+      <td><strong>Mistral Large 2</strong></td>
+      <td>Mistral</td>
+      <td>2024-11</td>
+      <td>128K</td>
+      <td>text</td>
+      <td class="center">✅</td>
+    </tr>
+
+    <tr>
+      <td><strong>Qwen3-235B-A22B</strong></td>
+      <td>Alibaba</td>
+      <td>2025-04</td>
+      <td>128K</td>
+      <td>text</td>
+      <td class="center">✅</td>
+    </tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="benchmarks">
+    <h2><span class="icon">📈</span> Benchmark Scores</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Model</th><th>MMLU</th><th>HumanEval</th><th>MATH</th><th>GPQA-Diamond</th><th>SWE bench</th><th>Arena ELO</th></tr></thead>
+        <tbody><tr><td><strong>GPT-4o</strong></td><td class="">88.7</td><td class="">90.2</td><td class="">76.6</td><td class="">53.6</td><td class="">—</td><td class="">1287</td></tr>
+<tr><td><strong>GPT-4.1</strong></td><td class="">90.2</td><td class="">93.4</td><td class="">82.1</td><td class="">—</td><td class="">54.6</td><td class="">1350</td></tr>
+<tr><td><strong>o3</strong></td><td class="best">92.1</td><td class="best">96.7</td><td class="">96.7</td><td class="best">87.7</td><td class="">69.1</td><td class="">—</td></tr>
+<tr><td><strong>Claude Sonnet 4</strong></td><td class="">89.9</td><td class="">93.7</td><td class="">81.2</td><td class="">68.6</td><td class="">72.7</td><td class="">—</td></tr>
+<tr><td><strong>Claude Opus 4</strong></td><td class="">91.4</td><td class="">95.1</td><td class="">83.6</td><td class="">74.8</td><td class="best">79.4</td><td class="">—</td></tr>
+<tr><td><strong>Gemini 2.5 Pro</strong></td><td class="">90.8</td><td class="">93.2</td><td class="">86.4</td><td class="">67.1</td><td class="">63.8</td><td class="best">1402</td></tr>
+<tr><td><strong>Gemini 2.5 Flash</strong></td><td class="">88.1</td><td class="">90.8</td><td class="">82.3</td><td class="">—</td><td class="">49.2</td><td class="">1361</td></tr>
+<tr><td><strong>DeepSeek-R1</strong></td><td class="">90.8</td><td class="">92.1</td><td class="best">97.3</td><td class="">71.5</td><td class="">—</td><td class="">—</td></tr>
+<tr><td><strong>Llama 4 Maverick</strong></td><td class="">89.2</td><td class="">90.5</td><td class="">77.4</td><td class="">—</td><td class="">—</td><td class="">1340</td></tr>
+<tr><td><strong>Grok-3</strong></td><td class="">91.3</td><td class="">92.7</td><td class="">93.3</td><td class="">68.2</td><td class="">—</td><td class="">1369</td></tr>
+<tr><td><strong>Mistral Large 2</strong></td><td class="">84</td><td class="">89.1</td><td class="">69.1</td><td class="">—</td><td class="">—</td><td class="">1187</td></tr>
+<tr><td><strong>Qwen3-235B-A22B</strong></td><td class="">89.5</td><td class="">90.3</td><td class="">85.7</td><td class="">65.8</td><td class="">—</td><td class="">1380</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="launches">
+    <h2><span class="icon">🚀</span> Recent Launches (2025)</h2>
+    
+    <div class="launch-item">
+      <span class="launch-date">2025-06</span>
+      <span class="launch-name">Claude Sonnet 4</span>
+      <span class="launch-lab">Anthropic</span>
+      <span class="launch-note">Hybrid extended thinking</span>
+    </div>
+
+    <div class="launch-item">
+      <span class="launch-date">2025-06</span>
+      <span class="launch-name">Claude Opus 4</span>
+      <span class="launch-lab">Anthropic</span>
+      <span class="launch-note">Anthropic flagship, best SWE-bench</span>
+    </div>
+
+    <div class="launch-item">
+      <span class="launch-date">2025-04</span>
+      <span class="launch-name">GPT-4.1</span>
+      <span class="launch-lab">OpenAI</span>
+      <span class="launch-note">1M context, strong coding</span>
+    </div>
+
+    <div class="launch-item">
+      <span class="launch-date">2025-04</span>
+      <span class="launch-name">o3</span>
+      <span class="launch-lab">OpenAI</span>
+      <span class="launch-note">Reasoning model with extended thinking</span>
+    </div>
+
+    <div class="launch-item">
+      <span class="launch-date">2025-04</span>
+      <span class="launch-name">Gemini 2.5 Flash</span>
+      <span class="launch-lab">Google DeepMind</span>
+      <span class="launch-note">Fast + cost-efficient thinking model</span>
+    </div>
+
+    <div class="launch-item">
+      <span class="launch-date">2025-04</span>
+      <span class="launch-name">Llama 4 Maverick</span>
+      <span class="launch-lab">Meta</span>
+      <span class="launch-note">MoE, 128 experts, open-weight</span>
+    </div>
+
+    <div class="launch-item">
+      <span class="launch-date">2025-04</span>
+      <span class="launch-name">Qwen3-235B-A22B</span>
+      <span class="launch-lab">Alibaba</span>
+      <span class="launch-note">MoE, 22B active params, Apache 2.0</span>
+    </div>
+
+    <div class="launch-item">
+      <span class="launch-date">2025-03</span>
+      <span class="launch-name">Gemini 2.5 Pro</span>
+      <span class="launch-lab">Google DeepMind</span>
+      <span class="launch-note">1M native, thinking model</span>
+    </div>
+
+    <div class="launch-item">
+      <span class="launch-date">2025-02</span>
+      <span class="launch-name">Grok-3</span>
+      <span class="launch-lab">xAI</span>
+      <span class="launch-note">Trained on Colossus cluster</span>
+    </div>
+
+    <div class="launch-item">
+      <span class="launch-date">2025-01</span>
+      <span class="launch-name">DeepSeek-R1</span>
+      <span class="launch-lab">DeepSeek</span>
+      <span class="launch-note">Open-weight reasoning, MIT license</span>
+    </div>
+  </section>
+
+  <section id="open">
+    <h2><span class="icon">🔓</span> Open-Weight Models</h2>
+    <div class="open-grid">
+      
+    <div class="open-card">
+      <h4>DeepSeek-R1 <span class="open-lab">DeepSeek</span></h4>
+      <p>Open-weight reasoning, MIT license</p>
+      <p class="open-scores">MMLU: 90.8 · HumanEval: 92.1 · MATH: 97.3</p>
+    </div>
+
+    <div class="open-card">
+      <h4>Llama 4 Maverick <span class="open-lab">Meta</span></h4>
+      <p>MoE, 128 experts, open-weight</p>
+      <p class="open-scores">MMLU: 89.2 · HumanEval: 90.5 · MATH: 77.4</p>
+    </div>
+
+    <div class="open-card">
+      <h4>Mistral Large 2 <span class="open-lab">Mistral</span></h4>
+      <p>Open-weight 123B params</p>
+      <p class="open-scores">MMLU: 84 · HumanEval: 89.1 · MATH: 69.1</p>
+    </div>
+
+    <div class="open-card">
+      <h4>Qwen3-235B-A22B <span class="open-lab">Alibaba</span></h4>
+      <p>MoE, 22B active params, Apache 2.0</p>
+      <p class="open-scores">MMLU: 89.5 · HumanEval: 90.3 · MATH: 85.7</p>
+    </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>Generated on 2026-03-12T06:51:13.573Z · <a href="https://github.com/soumikmaji_microsoft/ai-daily-brief">Source on GitHub</a></p>
+  <p>Data from RSS feeds &amp; public benchmarks. Scores are approximate and may vary by evaluation methodology.</p>
+</footer>
+
+</body>
+</html>
