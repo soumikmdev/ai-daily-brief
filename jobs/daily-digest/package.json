@@ -1,0 +1,12 @@
+{
+  "name": "daily-digest",
+  "version": "1.0.0",
+  "description": "This workspace will run the scheduled pipeline for news ingestion, ranking, summarization, narration, and publishing.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
