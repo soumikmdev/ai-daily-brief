@@ -1,0 +1,135 @@
+[
+  {
+    "title": "OpenAI launches GPT-5.4 with 1M-token context window and 33% fewer factual errors",
+    "link": "https://openai.com/news/",
+    "source": "OpenAI",
+    "snippet": "GPT-5.4 comes in Standard, Thinking, and Pro variants at $2.50/M input tokens. Top scores in GDPval (83%), SWE-Bench Pro (57.7%), and OSWorld (75%). Tool search reduces token usage by nearly half.",
+    "published": "2026-03-05T12:00:00Z"
+  },
+  {
+    "title": "OpenAI secures historic $110 billion funding round backed by Amazon, Nvidia, and SoftBank",
+    "link": "https://aichief.com/news/",
+    "source": "AI Chief",
+    "snippet": "The record-setting investment will scale OpenAI's models and infrastructure, underlining escalating investment in the global AI arms race.",
+    "published": "2026-03-10T10:00:00Z"
+  },
+  {
+    "title": "DeepSeek V3.2 delivers GPT-4 class performance at $0.28 per million input tokens",
+    "link": "https://www.tldl.io/blog/ai-product-launches-march-2026",
+    "source": "TLDL",
+    "snippet": "DeepSeek's latest open-weight model with 1M+ token context window pushes costs dramatically lower, challenging US-centric AI market incumbents.",
+    "published": "2026-03-08T09:00:00Z"
+  },
+  {
+    "title": "Anthropic releases Claude Opus 4.6 and Sonnet 4.6 with Agent Teams feature",
+    "link": "https://www.allaboutai.com/ai-news/",
+    "source": "All About AI",
+    "snippet": "Latest adaptive reasoning models feature Max Effort mode and multi-agent orchestration. Agent Teams enables coordination among multiple Claude instances for complex workflows.",
+    "published": "2026-03-07T14:00:00Z"
+  },
+  {
+    "title": "Google Gemini 3.1 Pro matches GPT-5.4 at the top of intelligence benchmarks",
+    "link": "https://blog.google/innovation-and-ai/products/google-ai-updates-february-2026/",
+    "source": "Google",
+    "snippet": "Preview model with 2M-token context window, Deep Think mode, and exceptional multimodal capabilities ties with GPT-5.4 for highest intelligence index score.",
+    "published": "2026-03-04T16:00:00Z"
+  },
+  {
+    "title": "Alibaba Qwen 3.5 Small enables frontier LLM performance on smartphones and laptops",
+    "link": "https://www.sci-tech-today.com/news/march-2026-ai-models-avalanche/",
+    "source": "Sci-Tech Today",
+    "snippet": "Open-source 0.8B–9B parameter series matches or surpasses far larger models, designed for efficient on-device deployment on consumer hardware.",
+    "published": "2026-03-06T11:00:00Z"
+  },
+  {
+    "title": "DeepRare AI outperforms human doctors at diagnosing rare diseases (64.4% vs 54.6%)",
+    "link": "https://www.humai.blog/ai-news-trends-march-2026-complete-monthly-digest/",
+    "source": "HumAI",
+    "snippet": "Agentic AI system from Shanghai Jiao Tong University achieves breakthrough accuracy in rare disease diagnostics, potentially revolutionizing the field.",
+    "published": "2026-03-09T08:00:00Z"
+  },
+  {
+    "title": "Lightricks LTX 2.3: open-source 22B-parameter model generates native 4K video at 50 FPS",
+    "link": "https://www.sci-tech-today.com/news/march-2026-ai-models-avalanche/",
+    "source": "Sci-Tech Today",
+    "snippet": "First open-source model capable of generating high-fidelity 4K video with synchronized audio at real-time frame rates.",
+    "published": "2026-03-07T10:00:00Z"
+  },
+  {
+    "title": "xAI raises $20 billion, pushing valuation above $200 billion as Grok-4 series expands",
+    "link": "https://wellows.com/blog/ai-startups/",
+    "source": "Wellows",
+    "snippet": "Elon Musk's xAI focuses on AGI-capable foundation models with improved real-time reasoning. Grok-4 series emphasizes real-time knowledge and conversational capabilities.",
+    "published": "2026-03-06T15:00:00Z"
+  },
+  {
+    "title": "Netflix acquires Ben Affleck's AI startup InterPositive for reportedly $600 million",
+    "link": "https://techcrunch.com/2026/03/11/netflix-may-have-paid-600-million-for-ben-afflecks-ai-startup/",
+    "source": "TechCrunch",
+    "snippet": "One of Netflix's largest acquisitions ever, signaling the streaming giant's commitment to AI-driven postproduction workflows.",
+    "published": "2026-03-11T09:00:00Z"
+  },
+  {
+    "title": "Meta acquires Moltbook, a social network built for AI agents",
+    "link": "https://startupgatha.com/top-ai-news-headlines-10-march-2026/",
+    "source": "Startup Gatha",
+    "snippet": "Signals Meta's move toward agent-managed digital environments as the future of social computing.",
+    "published": "2026-03-10T14:00:00Z"
+  },
+  {
+    "title": "Microsoft launches Copilot Cowork — digital coworker agents join productivity suites",
+    "link": "https://www.allaboutai.com/ai-news/",
+    "source": "All About AI",
+    "snippet": "AI agents become a standard part of Microsoft's productivity tools, working alongside humans on day-to-day workflows.",
+    "published": "2026-03-10T12:00:00Z"
+  },
+  {
+    "title": "Nvidia preps Vera Rubin AI chips as tech AI spending approaches $700 billion in 2026",
+    "link": "https://www.cnbc.com/2026/02/06/google-microsoft-meta-amazon-ai-cash.html",
+    "source": "CNBC",
+    "snippet": "Major announcements expected at upcoming GTC conference. Google, Microsoft, Meta, and Amazon all ramping AI infrastructure budgets.",
+    "published": "2026-03-10T08:00:00Z"
+  },
+  {
+    "title": "Yann LeCun's AMI raises $1.03 billion to build 'world models' for structured AI reasoning",
+    "link": "https://startupgatha.com/top-ai-news-headlines-10-march-2026/",
+    "source": "Startup Gatha",
+    "snippet": "Advanced Machine Intelligence develops next-generation AI that goes beyond LLMs, enabling advanced planning and reasoning through world models.",
+    "published": "2026-03-09T13:00:00Z"
+  },
+  {
+    "title": "OpenAI acquires Promptfoo for AI agent security and automated vulnerability detection",
+    "link": "https://openai.com/news/",
+    "source": "OpenAI",
+    "snippet": "Acquisition bolsters trust and compliance for enterprise AI agent deployments with specialized prompt injection defenses.",
+    "published": "2026-03-11T15:00:00Z"
+  },
+  {
+    "title": "Google debuts Nano Banana 2 — pro-level AI image generator integrated into Gemini and Search",
+    "link": "https://www.allaboutai.com/ai-news/",
+    "source": "All About AI",
+    "snippet": "High-speed image generation now available across Gemini, Google Search, and developer tools.",
+    "published": "2026-03-11T11:00:00Z"
+  },
+  {
+    "title": "Helios: 14B open-source model enables real-time minute-scale video generation on a single H100",
+    "link": "https://www.sci-tech-today.com/news/march-2026-ai-models-avalanche/",
+    "source": "Sci-Tech Today",
+    "snippet": "Joint work from Peking University, ByteDance, and Canva pushes the frontier of efficient video generation with an open-source approach.",
+    "published": "2026-03-08T14:00:00Z"
+  },
+  {
+    "title": "Rivian spin-out Mind Robotics raises $500M for industrial AI-powered robots",
+    "link": "https://techcrunch.com/2026/03/11/rivian-mind-robotics-series-a-500m-fund-raise-industrial-ai-powered-robots/",
+    "source": "TechCrunch",
+    "snippet": "Created by Rivian founder RJ Scaringe, the startup will train on and deploy robots in Rivian's manufacturing facilities.",
+    "published": "2026-03-11T14:00:00Z"
+  },
+  {
+    "title": "How NVIDIA AI-Q Reached #1 on DeepResearch Bench I and II",
+    "link": "https://huggingface.co/blog/nvidia/how-nvidia-won-deepresearch-bench",
+    "source": "Hugging Face",
+    "snippet": "NVIDIA's agentic AI-Q system tops the DeepResearch benchmarks, demonstrating advances in retrieval-augmented deep research workflows.",
+    "published": "2026-03-12T03:00:00Z"
+  }
+]

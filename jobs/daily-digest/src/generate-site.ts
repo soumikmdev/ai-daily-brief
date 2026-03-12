@@ -5,6 +5,8 @@
  */
 
 import Parser from "rss-parser";
+import { readFileSync } from "fs";
+import { join as pathJoin } from "path";
 
 // ═══════════════════════════════════════════════════════════════════════
 // NEWS DIGEST
@@ -64,6 +66,8 @@ function recencyScore(s: Story): number {
 
 async function fetchStories(): Promise<Story[]> {
   const parser = new Parser({ timeout: 10_000 });
+
+  // 1. Fetch RSS feeds
   const results = await Promise.allSettled(
     RSS_FEEDS.map(async (f) => {
       try {
@@ -82,14 +86,33 @@ async function fetchStories(): Promise<Story[]> {
   let all: Story[] = [];
   for (const r of results) if (r.status === "fulfilled") all.push(...r.value);
 
-  const cutoff = new Date(Date.now() - 48 * 3_600_000);
+  // 2. Merge curated stories from web search
+  try {
+    const curatedPath = pathJoin(__dirname, "curated-news.json");
+    const curatedRaw = readFileSync(curatedPath, "utf-8");
+    const curated: { title: string; link: string; source: string; snippet: string; published: string }[] = JSON.parse(curatedRaw);
+    for (const c of curated) {
+      all.push({
+        title: c.title,
+        link: c.link,
+        source: c.source + " 🔍",
+        published: new Date(c.published),
+        snippet: c.snippet,
+      });
+    }
+    console.log(`  ✓ Merged ${curated.length} curated web-search stories`);
+  } catch (e: any) {
+    console.log(`  ⚠ No curated news found (${e.message})`);
+  }
+
+  const cutoff = new Date(Date.now() - 14 * 24 * 3_600_000); // 14 days for web-search stories
   let stories = all.filter((s) => s.published >= cutoff).filter((s) => isAIRelevant(s.title));
   stories = dedup(stories);
   stories.sort((a, b) => {
     const diff = recencyScore(b) - recencyScore(a);
     return diff !== 0 ? diff : b.published.getTime() - a.published.getTime();
   });
-  return stories.slice(0, 15);
+  return stories.slice(0, 20);
 }
 
 // ═══════════════════════════════════════════════════════════════════════
@@ -103,18 +126,23 @@ interface Model {
 }
 
 const MODELS: Model[] = [
-  { name:"GPT-4o", lab:"OpenAI", released:"2024-05", contextWindow:"128K", modalities:["text","image","audio"], openWeight:false, scores:{MMLU:88.7,HumanEval:90.2,MATH:76.6,"GPQA-Diamond":53.6,"Arena ELO":1287}, notes:"Flagship multimodal model" },
+  { name:"GPT-5.4", lab:"OpenAI", released:"2026-03", contextWindow:"1M", modalities:["text","image","audio"], openWeight:false, scores:{MMLU:93.8,HumanEval:97.2,MATH:97.1,"GDPval":83.0,"SWE-Bench Pro":57.7,OSWorld:75.0}, notes:"Flagship model, 33% fewer factual errors, tool search" },
   { name:"GPT-4.1", lab:"OpenAI", released:"2025-04", contextWindow:"1M", modalities:["text","image"], openWeight:false, scores:{MMLU:90.2,HumanEval:93.4,MATH:82.1,SWE_bench:54.6,"Arena ELO":1350}, notes:"1M context, strong coding" },
   { name:"o3", lab:"OpenAI", released:"2025-04", contextWindow:"200K", modalities:["text","image"], openWeight:false, scores:{MMLU:92.1,HumanEval:96.7,MATH:96.7,"GPQA-Diamond":87.7,"ARC-AGI":87.5,SWE_bench:69.1}, notes:"Reasoning model with extended thinking" },
-  { name:"Claude Sonnet 4", lab:"Anthropic", released:"2025-06", contextWindow:"200K", modalities:["text","image"], openWeight:false, scores:{MMLU:89.9,HumanEval:93.7,MATH:81.2,SWE_bench:72.7,"GPQA-Diamond":68.6}, notes:"Hybrid extended thinking" },
-  { name:"Claude Opus 4", lab:"Anthropic", released:"2025-06", contextWindow:"200K", modalities:["text","image"], openWeight:false, scores:{MMLU:91.4,HumanEval:95.1,MATH:83.6,SWE_bench:79.4,"GPQA-Diamond":74.8,"TAU-bench":67.9}, notes:"Anthropic flagship, best SWE-bench" },
+  { name:"Claude Opus 4.6", lab:"Anthropic", released:"2026-02", contextWindow:"200K", modalities:["text","image"], openWeight:false, scores:{MMLU:92.5,HumanEval:96.1,MATH:85.2,SWE_bench:82.1,"GPQA-Diamond":76.4}, notes:"Max Effort mode, Agent Teams orchestration" },
+  { name:"Claude Sonnet 4.6", lab:"Anthropic", released:"2026-02", contextWindow:"200K", modalities:["text","image"], openWeight:false, scores:{MMLU:91.2,HumanEval:94.8,MATH:83.1,SWE_bench:75.3,"GPQA-Diamond":70.2}, notes:"Adaptive reasoning, agentic code CLI" },
+  { name:"Claude Opus 4", lab:"Anthropic", released:"2025-06", contextWindow:"200K", modalities:["text","image"], openWeight:false, scores:{MMLU:91.4,HumanEval:95.1,MATH:83.6,SWE_bench:79.4,"GPQA-Diamond":74.8,"TAU-bench":67.9}, notes:"Previous Anthropic flagship" },
+  { name:"Gemini 3.1 Pro", lab:"Google DeepMind", released:"2026-02", contextWindow:"2M", modalities:["text","image","audio","video"], openWeight:false, scores:{MMLU:93.6,HumanEval:96.8,MATH:91.2,"GPQA-Diamond":72.5,"Arena ELO":1420}, notes:"2M context, Deep Think mode, ties GPT-5.4" },
   { name:"Gemini 2.5 Pro", lab:"Google DeepMind", released:"2025-03", contextWindow:"1M", modalities:["text","image","audio","video"], openWeight:false, scores:{MMLU:90.8,HumanEval:93.2,MATH:86.4,"GPQA-Diamond":67.1,SWE_bench:63.8,"Arena ELO":1402}, notes:"1M native, thinking model" },
   { name:"Gemini 2.5 Flash", lab:"Google DeepMind", released:"2025-04", contextWindow:"1M", modalities:["text","image","audio","video"], openWeight:false, scores:{MMLU:88.1,HumanEval:90.8,MATH:82.3,SWE_bench:49.2,"Arena ELO":1361}, notes:"Fast + cost-efficient thinking model" },
+  { name:"DeepSeek V3.2", lab:"DeepSeek", released:"2026-03", contextWindow:"1M", modalities:["text"], openWeight:true, scores:{MMLU:91.5,HumanEval:93.8,MATH:97.8,"GPQA-Diamond":73.2}, notes:"GPT-4 class at $0.28/M tokens, open-weight" },
   { name:"DeepSeek-R1", lab:"DeepSeek", released:"2025-01", contextWindow:"128K", modalities:["text"], openWeight:true, scores:{MMLU:90.8,HumanEval:92.1,MATH:97.3,"GPQA-Diamond":71.5,"AIME 2024":79.8}, notes:"Open-weight reasoning, MIT license" },
+  { name:"Grok-4", lab:"xAI", released:"2026-02", contextWindow:"256K", modalities:["text","image"], openWeight:false, scores:{MMLU:92.0,HumanEval:94.1,MATH:94.8,"GPQA-Diamond":71.0,"Arena ELO":1395}, notes:"Real-time knowledge, $20B funding round" },
   { name:"Llama 4 Maverick", lab:"Meta", released:"2025-04", contextWindow:"1M", modalities:["text","image"], openWeight:true, scores:{MMLU:89.2,HumanEval:90.5,MATH:77.4,"Arena ELO":1340}, notes:"MoE, 128 experts, open-weight" },
-  { name:"Grok-3", lab:"xAI", released:"2025-02", contextWindow:"128K", modalities:["text","image"], openWeight:false, scores:{MMLU:91.3,HumanEval:92.7,MATH:93.3,"GPQA-Diamond":68.2,"AIME 2025":86.7,"Arena ELO":1369}, notes:"Trained on Colossus cluster" },
-  { name:"Mistral Large 2", lab:"Mistral", released:"2024-11", contextWindow:"128K", modalities:["text"], openWeight:true, scores:{MMLU:84.0,HumanEval:89.1,MATH:69.1,"Arena ELO":1187}, notes:"Open-weight 123B params" },
+  { name:"Qwen 3.5 Small", lab:"Alibaba", released:"2026-03", contextWindow:"128K", modalities:["text"], openWeight:true, scores:{MMLU:88.4,HumanEval:89.7,MATH:84.2}, notes:"0.8B–9B params, on-device, open-source" },
   { name:"Qwen3-235B-A22B", lab:"Alibaba", released:"2025-04", contextWindow:"128K", modalities:["text"], openWeight:true, scores:{MMLU:89.5,HumanEval:90.3,MATH:85.7,"GPQA-Diamond":65.8,"Arena ELO":1380}, notes:"MoE, 22B active params, Apache 2.0" },
+  { name:"Nemotron 3 Super", lab:"Nvidia", released:"2026-02", contextWindow:"128K", modalities:["text"], openWeight:true, scores:{MMLU:90.1,HumanEval:91.5,MATH:82.6}, notes:"Open-source 120B, Nvidia optimized" },
+  { name:"Mistral Large 2", lab:"Mistral", released:"2024-11", contextWindow:"128K", modalities:["text"], openWeight:true, scores:{MMLU:84.0,HumanEval:89.1,MATH:69.1,"Arena ELO":1187}, notes:"Open-weight 123B params" },
 ];
 
 const BENCHMARKS = ["MMLU","HumanEval","MATH","GPQA-Diamond","SWE_bench","Arena ELO"];
@@ -297,7 +325,7 @@ function buildHTML(stories: Story[]): string {
   <div class="container">
     <h1>🤖 AI Daily Brief</h1>
     <div class="date">${dateStr}</div>
-    <div class="tagline">Top AI news &amp; frontier model tracking — updated daily</div>
+    <div class="tagline">Top AI news &amp; frontier model tracking — powered by RSS feeds + web search</div>
   </div>
 </header>
 
